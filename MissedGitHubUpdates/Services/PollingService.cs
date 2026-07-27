@@ -69,7 +69,6 @@ public class PollingService : IDisposable
 
     private async Task TickAsync()
     {
-        // Skip this tick if the previous one is still running (slow network etc.)
         if (_isBusy) return;
         _isBusy = true;
 
@@ -78,22 +77,27 @@ public class PollingService : IDisposable
             var prefs      = PreferencesService.Load();
             var lastSeenId = prefs.LastSeenEventId;
 
+            System.Diagnostics.Debug.WriteLine($"[Polling] Tick — lastSeenId: '{lastSeenId}'");
+
             var newEvents = await _gitHub.PollNewEventsAsync(lastSeenId);
+
+            System.Diagnostics.Debug.WriteLine($"[Polling] New events found: {newEvents.Count}");
 
             if (newEvents.Count == 0)
                 return;
 
-            // Fire a toast for each new event (newest first from the API,
-            // so reverse to show oldest-first in the notification stack)
             foreach (var evt in Enumerable.Reverse(newEvents))
+            {
+                System.Diagnostics.Debug.WriteLine($"[Polling] Firing notification: {evt.EventType} — {evt.RepoName}");
                 NotificationService.Show(evt);
+            }
 
-            // Persist the most recent event ID (first item — newest)
             PreferencesService.UpdateLastSeenEventId(newEvents[0].EventId);
+            System.Diagnostics.Debug.WriteLine($"[Polling] Saved new lastSeenId: {newEvents[0].EventId}");
         }
-        catch
+        catch (Exception ex)
         {
-            // Swallow all errors — the timer will try again next tick
+            System.Diagnostics.Debug.WriteLine($"[Polling] Tick error: {ex.Message}");
         }
         finally
         {

@@ -97,17 +97,17 @@ public class GitHubService
         }
         catch (RateLimitExceededException)
         {
-            // Back off — polling timer will retry on next interval
+            System.Diagnostics.Debug.WriteLine("[Polling] Rate limit exceeded.");
             return [];
         }
-        catch (AuthorizationException)
+        catch (AuthorizationException ex)
         {
-            // Token expired or revoked — surface this separately later
+            System.Diagnostics.Debug.WriteLine($"[Polling] Auth error: {ex.Message}");
             return [];
         }
-        catch
+        catch (Exception ex)
         {
-            // Network error etc. — silent retry next tick
+            System.Diagnostics.Debug.WriteLine($"[Polling] Error: {ex.GetType().Name} — {ex.Message}");
             return [];
         }
     }
