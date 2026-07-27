@@ -35,6 +35,19 @@ public partial class App : Application
 
     // ── Tray Icon ─────────────────────────────────────────────────────────────
 
+    private static Icon LoadTrayIcon()
+    {
+        try
+        {
+            var uri    = new Uri("pack://application:,,,/Assets/LOGO.ico");
+            var stream = GetResourceStream(uri)?.Stream;
+            if (stream != null)
+                return new Icon(stream);
+        }
+        catch { }
+        return SystemIcons.Application; // fallback
+    }
+
     private void InitialiseTrayIcon()
     {
         var contextMenu = new ContextMenuStrip();
@@ -53,7 +66,7 @@ public partial class App : Application
 
         _trayIcon = new NotifyIcon
         {
-            Icon             = SystemIcons.Application, // placeholder — custom icon in next step
+            Icon             = LoadTrayIcon(),
             Text             = "Missed GitHub Updates — Running",
             ContextMenuStrip = contextMenu,
             Visible          = true

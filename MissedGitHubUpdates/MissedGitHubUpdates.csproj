@@ -7,9 +7,15 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <!-- Needed for NotifyIcon (system tray) and ContextMenuStrip -->
     <UseWindowsForms>true</UseWindowsForms>
+    <!-- App icon shown in Explorer, taskbar, and installer -->
+    <ApplicationIcon>Assets\LOGO.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Embed the icon as a resource so we can load it at runtime for the tray -->
+    <Resource Include="Assets\LOGO.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" />
