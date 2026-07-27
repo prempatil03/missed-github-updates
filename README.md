@@ -1,6 +1,6 @@
 # Missed GitHub Updates
 
-> A lightweight Windows system tray app that delivers native toast notifications for GitHub push events and pull requests — so you never miss a teammate's commit again...
+> A lightweight Windows system tray app that delivers native toast notifications for GitHub push events and pull requests — so you never miss a teammate's commit again.
 
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11-blue)
 ![.NET](https://img.shields.io/badge/.NET-8.0-purple)
