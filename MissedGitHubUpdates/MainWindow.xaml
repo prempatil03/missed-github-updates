@@ -1,0 +1,19 @@
+﻿<!--
+    Hidden host window. WPF requires at least one Window object to keep
+    the application message loop alive. This window is never shown to the user.
+    The real UI is the system tray icon defined in App.xaml.cs.
+-->
+<Window x:Class="MissedGitHubUpdates.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MissedGitHubUpdates"
+        mc:Ignorable="d"
+        Title="MissedGitHubUpdates"
+        Height="0" Width="0"
+        WindowStyle="None"
+        ShowInTaskbar="False"
+        Visibility="Hidden">
+    <Grid />
+</Window>

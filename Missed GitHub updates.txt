@@ -1,0 +1,41 @@
+Missed GitHub updates
+Developers working in teams need to know when coworkers push code or open pull requests. Currently, they have to manually check GitHub or rely on email alerts, which means they either miss important updates or break their focus to open a browser and check the website.
+Technical Architecture & Stack
+Goal: Build a lightweight Windows system tray application that surfaces GitHub activity (pushes, PRs) as native Windows toast notifications.
+Tech Stack (What we use):
+Language: C#
+Framework: .NET 8 WPF (Windows Presentation Foundation) for the desktop app skeleton and UI.
+GitHub Integration: Octokit.net (official GitHub API client library).
+Notifications: Microsoft.Toolkit.Uwp.Notifications (for modern Windows 10/11 toast pop-ups).
+Data Storage: Windows Credential Manager (to securely store the GitHub token) and a local JSON file (to store user preferences and the ID of the last-seen GitHub event).
+Architecture (How it works):
+1.System Tray Host: The app launches silently without a main window. It registers a NotifyIcon in the Windows system tray with a context menu (Settings, Exit).
+2.Authentication & Storage:
+The Settings window takes a GitHub Personal Access Token (PAT).
+The app encrypts and saves this token securely in Windows Credential Manager so it isn't stored in plain text.
+3.The Polling Engine (Background Worker):
+Since GitHub cannot easily send Webhooks to a local desktop app (no public IP/server), we use polling.
+A background timer runs every 60-120 seconds.
+It uses Octokit to call the GitHub /users/{username}/events API.
+It tracks the id of the most recently processed event. On the next poll, it only looks at events newer than that ID.
+4.Event Parsing: The app filters the incoming event stream for PushEvent and PullRequestEvent.
+5.Notification Dispatch: For matching events, it constructs a native Windows Toast notification displaying the repo, the user, and the action, and triggers it via the Windows OS.
+End-to-End Build Process
+Here is the step-by-step process of how we are going to build this app, from start to finish.
+Phase 1: Planning and Setup (What we are doing right now)
+1.Define the Scope: Agree that we are building a Windows system tray app for GitHub pushes and pull requests. (Done)
+2.Define the Tech Stack: Choose C#, .NET WPF, and Octokit for polling. (Done)
+3.Design the UI: We will sketch out the exact fields needed for the Settings window (where you paste your token).
+4.Write the PRD: I will write the final Product Requirements Document that acts as the master blueprint for the coding agent.
+Phase 2: Building the App Shell (The Coding Agent starts here)
+1.Create the Project: The coding agent will initialize a new C# .NET WPF project.
+2.Build the System Tray Icon: The agent will hide the default main window and instead create an icon in the Windows taskbar with a right-click menu ("Settings" and "Quit").
+3.Build the Settings Window: The agent will build the UI for the settings screen, including a text box for the token and a Save button.
+Phase 3: Core Logic & GitHub Connection
+1.Secure Storage: The agent will write the code to take the token from the settings window and save it securely into the Windows Credential Manager.
+2.Connect to GitHub: Using the Octokit library, the agent will write a function to test the token and fetch the user's recent activity feed.
+3.The Polling Engine: The agent will create a background timer that runs every 60 seconds to fetch new events. It will write logic to save the ID of the "last seen" event so the app only processes new events.
+Phase 4: Notifications & Polish
+1.Parse Events: The agent will add logic to specifically look for PushEvent and PullRequestEvent in the data coming back from GitHub.
+2.Windows Notifications: The agent will wire up the Microsoft Toolkit so that when a push or PR is found, it triggers a native pop-up at the bottom right of your screen.
+3.End-to-End Testing: The agent will run the app, verify it connects, and ensure notifications fire properly when new pushes happen.
