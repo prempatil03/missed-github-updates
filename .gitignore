@@ -23,3 +23,6 @@ packages/
 # Local prefs (contains username — not sensitive but no need to track)
 # prefs.json is in AppData, not the project folder, so this is just a safety net
 prefs.json
+
+# Installer output — too large for git (196MB exe)
+installer/output/
