@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using MissedGitHubUpdates.Models;
 using MissedGitHubUpdates.Services;
@@ -114,6 +115,19 @@ public partial class SettingsWindow : Window
 
         // Close after a short delay so the user sees the confirmation
         Task.Delay(900).ContinueWith(_ => Dispatcher.Invoke(Close));
+    }
+
+    // ── Custom title bar: drag to move ───────────────────────────────────────
+    private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (e.LeftButton == MouseButtonState.Pressed)
+            DragMove();
+    }
+
+    // ── Custom close button ───────────────────────────────────────────────────
+    private void CloseButton_Click(object sender, RoutedEventArgs e)
+    {
+        Close();
     }
 
     // ── Helper: coloured status feedback ─────────────────────────────────────

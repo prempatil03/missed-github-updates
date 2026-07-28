@@ -1,117 +1,282 @@
 <Window x:Class="MissedGitHubUpdates.Windows.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Settings — Missed GitHub Updates"
-        Height="340" Width="440"
+        Title="Missed GitHub Updates"
+        Height="640" Width="420"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        ShowInTaskbar="True">
+        ShowInTaskbar="True"
+        Background="#0D1117"
+        WindowStyle="None"
+        AllowsTransparency="True">
 
     <Window.Resources>
-        <!-- Label style -->
-        <Style x:Key="FieldLabel" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Margin" Value="0,0,0,4"/>
-            <Setter Property="Foreground" Value="#333333"/>
+
+        <!-- Dark input style -->
+        <Style x:Key="DarkInput" TargetType="TextBox">
+            <Setter Property="Background" Value="#161B22"/>
+            <Setter Property="Foreground" Value="#E6EDF3"/>
+            <Setter Property="BorderBrush" Value="#30363D"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="CaretBrush" Value="#58A6FF"/>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="#58A6FF"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
-        <!-- Input box style -->
-        <Style x:Key="InputBox" TargetType="Control">
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Padding" Value="6,0"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+        <!-- Dark password box style -->
+        <Style x:Key="DarkPassword" TargetType="PasswordBox">
+            <Setter Property="Background" Value="#161B22"/>
+            <Setter Property="Foreground" Value="#E6EDF3"/>
+            <Setter Property="BorderBrush" Value="#30363D"/>
             <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="CaretBrush" Value="#58A6FF"/>
+        </Style>
+
+        <!-- Field label -->
+        <Style x:Key="FieldLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#8B949E"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,0,0,6"/>
         </Style>
 
         <!-- Primary button -->
-        <Style x:Key="PrimaryButton" TargetType="Button">
-            <Setter Property="Height" Value="32"/>
-            <Setter Property="Padding" Value="16,0"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Background" Value="#24292F"/>
+        <Style x:Key="PrimaryBtn" TargetType="Button">
+            <Setter Property="Background" Value="#238636"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#2EA043"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#1A7F37"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="#21262D"/>
+                                <Setter Property="Foreground" Value="#484F58"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <!-- Secondary button -->
-        <Style x:Key="SecondaryButton" TargetType="Button">
-            <Setter Property="Height" Value="32"/>
-            <Setter Property="Padding" Value="16,0"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Background" Value="#F0F0F0"/>
-            <Setter Property="Foreground" Value="#333333"/>
-            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+        <Style x:Key="SecondaryBtn" TargetType="Button">
+            <Setter Property="Background" Value="#21262D"/>
+            <Setter Property="Foreground" Value="#C9D1D9"/>
+            <Setter Property="BorderBrush" Value="#30363D"/>
             <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="FontSize" Value="13"/>
             <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#30363D"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="#484F58"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
+
+        <!-- Close button -->
+        <Style x:Key="CloseBtn" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#8B949E"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#CF222E"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
 
-    <Grid Margin="24">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>  <!-- PAT label -->
-            <RowDefinition Height="Auto"/>  <!-- PAT input -->
-            <RowDefinition Height="12"/>    <!-- spacer -->
-            <RowDefinition Height="Auto"/>  <!-- Username label -->
-            <RowDefinition Height="Auto"/>  <!-- Username input -->
-            <RowDefinition Height="12"/>    <!-- spacer -->
-            <RowDefinition Height="Auto"/>  <!-- Interval label -->
-            <RowDefinition Height="Auto"/>  <!-- Interval input -->
-            <RowDefinition Height="16"/>    <!-- spacer -->
-            <RowDefinition Height="Auto"/>  <!-- Buttons row -->
-            <RowDefinition Height="12"/>    <!-- spacer -->
-            <RowDefinition Height="Auto"/>  <!-- Status label -->
-        </Grid.RowDefinitions>
+    <!-- Outer border with rounded corners -->
+    <Border Background="#0D1117"
+            BorderBrush="#30363D"
+            BorderThickness="1"
+            CornerRadius="10"
+            MouseLeftButtonDown="Border_MouseDown">
 
-        <!-- ── GitHub PAT ── -->
-        <TextBlock Grid.Row="0" Style="{StaticResource FieldLabel}"
-                   Text="GitHub Personal Access Token"/>
-        <PasswordBox x:Name="PATBox"
-                     Grid.Row="1"
-                     Style="{StaticResource InputBox}"
-                     PasswordChar="●"
-                     ToolTip="Generate at: GitHub → Settings → Developer settings → Personal access tokens"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>  <!-- custom title bar -->
+                <RowDefinition Height="Auto"/>  <!-- header / logo -->
+                <RowDefinition Height="*"/>     <!-- form fields -->
+                <RowDefinition Height="Auto"/>  <!-- status + buttons -->
+            </Grid.RowDefinitions>
 
-        <!-- ── GitHub Username ── -->
-        <TextBlock Grid.Row="3" Style="{StaticResource FieldLabel}"
-                   Text="GitHub Username"/>
-        <TextBox x:Name="UsernameBox"
-                 Grid.Row="4"
-                 Style="{StaticResource InputBox}"
-                 ToolTip="Your GitHub username (e.g. octocat)"/>
+            <!-- ── Custom title bar ── -->
+            <Grid Grid.Row="0" Background="#161B22" Height="40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Border Background="#161B22" CornerRadius="10,10,0,0"/>
+                <TextBlock Grid.Column="0"
+                           Text="Missed GitHub Updates"
+                           Foreground="#8B949E"
+                           FontSize="12"
+                           VerticalAlignment="Center"
+                           Margin="16,0,0,0"/>
+                <Button Grid.Column="1"
+                        Style="{StaticResource CloseBtn}"
+                        Content="✕"
+                        Margin="0,0,8,0"
+                        Click="CloseButton_Click"/>
+            </Grid>
 
-        <!-- ── Polling Interval ── -->
-        <TextBlock Grid.Row="6" Style="{StaticResource FieldLabel}"
-                   Text="Polling Interval (seconds)"/>
-        <TextBox x:Name="IntervalBox"
-                 Grid.Row="7"
-                 Style="{StaticResource InputBox}"
-                 Text="60"
-                 Width="80"
-                 HorizontalAlignment="Left"
-                 ToolTip="How often to check GitHub for new events (minimum 30s)"/>
+            <!-- ── Header: owl icon + app name ── -->
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0,28,0,24">
+                <Image Source="/Assets/LOGO.ico"
+                       Width="56" Height="56"
+                       HorizontalAlignment="Center"
+                       RenderOptions.BitmapScalingMode="HighQuality"/>
+                <TextBlock Text="Missed GitHub Updates"
+                           Foreground="#E6EDF3"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Center"
+                           Margin="0,12,0,4"/>
+                <TextBlock Text="GitHub activity notifications for Windows"
+                           Foreground="#8B949E"
+                           FontSize="12"
+                           HorizontalAlignment="Center"/>
+            </StackPanel>
 
-        <!-- ── Buttons ── -->
-        <StackPanel Grid.Row="9" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="TestButton"
-                    Style="{StaticResource SecondaryButton}"
-                    Content="Test Connection"
-                    Margin="0,0,8,0"
-                    Click="TestButton_Click"/>
-            <Button x:Name="SaveButton"
-                    Style="{StaticResource PrimaryButton}"
-                    Content="Save"
-                    Click="SaveButton_Click"/>
-        </StackPanel>
+            <!-- ── Form fields ── -->
+            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="28,0,28,0">
 
-        <!-- ── Status feedback ── -->
-        <TextBlock x:Name="StatusLabel"
-                   Grid.Row="11"
-                   FontSize="12"
-                   TextWrapping="Wrap"
-                   HorizontalAlignment="Center"
-                   Text=""/>
-    </Grid>
+                <!-- Divider -->
+                <Border Height="1" Background="#21262D" Margin="0,0,0,20"/>
+
+                <!-- PAT -->
+                <TextBlock Text="PERSONAL ACCESS TOKEN" Style="{StaticResource FieldLabel}"/>
+                <PasswordBox x:Name="PATBox"
+                             Style="{StaticResource DarkPassword}"
+                             PasswordChar="●"/>
+                <TextBlock Text="Generate at GitHub → Settings → Developer settings → PAT"
+                           Foreground="#484F58"
+                           FontSize="11"
+                           Margin="0,5,0,16"/>
+
+                <!-- Username -->
+                <TextBlock Text="GITHUB USERNAME" Style="{StaticResource FieldLabel}"/>
+                <TextBox x:Name="UsernameBox"
+                         Style="{StaticResource DarkInput}"/>
+                <TextBlock Text="Your GitHub username (e.g. octocat)"
+                           Foreground="#484F58"
+                           FontSize="11"
+                           Margin="0,5,0,16"/>
+
+                <!-- Polling Interval -->
+                <TextBlock Text="POLLING INTERVAL (SECONDS)" Style="{StaticResource FieldLabel}"/>
+                <TextBox x:Name="IntervalBox"
+                         Style="{StaticResource DarkInput}"
+                         Text="60"
+                         Width="100"
+                         HorizontalAlignment="Left"/>
+                <TextBlock Text="Minimum 30 seconds"
+                           Foreground="#484F58"
+                           FontSize="11"
+                           Margin="0,5,0,20"/>
+
+            </StackPanel>
+            </ScrollViewer>
+
+            <!-- ── Status + Buttons ── -->
+            <Grid Grid.Row="3" Margin="28,16,28,24">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="12"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Status message -->
+                <TextBlock x:Name="StatusLabel"
+                           Grid.Row="0"
+                           FontSize="12"
+                           TextWrapping="Wrap"
+                           HorizontalAlignment="Center"
+                           Text=""/>
+
+                <!-- Buttons -->
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="TestButton"
+                            Grid.Column="0"
+                            Style="{StaticResource SecondaryBtn}"
+                            Content="Test Connection"
+                            Click="TestButton_Click"/>
+                    <Button x:Name="SaveButton"
+                            Grid.Column="2"
+                            Style="{StaticResource PrimaryBtn}"
+                            Content="Save Settings"
+                            Click="SaveButton_Click"/>
+                </Grid>
+            </Grid>
+
+        </Grid>
+    </Border>
 </Window>

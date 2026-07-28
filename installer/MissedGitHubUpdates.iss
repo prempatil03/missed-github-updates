@@ -4,7 +4,7 @@
 ; ============================================================
 
 #define AppName      "Missed GitHub Updates"
-#define AppVersion   "1.0.0"
+#define AppVersion   "1.1.0"
 #define AppPublisher "Prem Patil"
 #define AppURL       "https://github.com/prempatil03/missed-github-updates"
 #define AppExeName   "MissedGitHubUpdates.exe"
@@ -22,7 +22,7 @@ DefaultDirName={autopf}\{#AppName}
 DefaultGroupName={#AppName}
 AllowNoIcons=yes
 OutputDir=output
-OutputBaseFilename=MissedGitHubUpdates-Setup
+OutputBaseFilename=MissedGitHubUpdates-Setup-v1.1.0
 SetupIconFile={#IconFile}
 Compression=lzma
 SolidCompression=yes
@@ -65,5 +65,11 @@ Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: 
 Filename: "{app}\{#AppExeName}"; Description: "Launch {#AppName}"; Flags: nowait postinstall skipifsilent
 
 [UninstallRun]
-; Make sure the app is closed before uninstall
+; Step 1: Kill the app if running
 Filename: "taskkill"; Parameters: "/F /IM {#AppExeName}"; Flags: runhidden; RunOnceId: "KillApp"
+
+; Step 2: Delete the GitHub PAT from Windows Credential Manager
+Filename: "cmdkey"; Parameters: "/delete:MissedGitHubUpdates/GitHubPAT"; Flags: runhidden; RunOnceId: "DeleteCred"
+
+; Step 3: Delete the AppData prefs folder
+Filename: "powershell"; Parameters: "-NoProfile -NonInteractive -Command ""Remove-Item -Recurse -Force '$env:APPDATA\MissedGitHubUpdates' -ErrorAction SilentlyContinue"""; Flags: runhidden; RunOnceId: "DeleteAppData"
